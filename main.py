@@ -76,6 +76,7 @@ def add_note_submit():
         return redirect("/prijava/")
 
     note_text = request.args.get("note")
+    note_text = note_text.replace("<", "no").replace(">", "no")
 
     conn = sqlite3.connect("test.db")
     cursor = conn.cursor()
