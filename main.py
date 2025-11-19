@@ -16,6 +16,7 @@ def prijava():
 def prijava_submit():
     uporabnisko_ime = request.args.get("username")
     geslo = request.args.get("geslo")
+    geslo = geslo.replace("\"", "")
     print(uporabnisko_ime, geslo)
 
     conn = sqlite3.connect("test.db")
@@ -40,6 +41,18 @@ def registracija():
 def registracija_submit():
     uporabnisko_ime = request.args.get("username")
     geslo = request.args.get("geslo")
+
+    if len(geslo) < 8:
+        return render_template("registracija.html", info_text="Geslo mora imeti najmanj 8 znakov!")
+
+    lookup_command  0 "SELECT * FROM contacts WHERE first_name = ?", (uporabnisko_ime,))
+    conn = sqlite3.connect("test.db")
+    cursor = conn.cursor()
+    cursor.execute(lookup_command)
+    result = cursor.fechone()
+    if result:
+        conn.close()
+        return "Uporabnisko ime ze obstaja"
 
     insert_command = 'INSERT INTO contacts(first_name, last_name) VALUES("'+uporabnisko_ime+'", "'+geslo+'");'
     print(insert_command)
