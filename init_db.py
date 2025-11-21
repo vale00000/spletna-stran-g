@@ -7,12 +7,12 @@ def init_db():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
-    # Create contacts table
+    # Create users table
     cursor.execute('''
-        CREATE TABLE contacts (
+        CREATE TABLE users (
             id INTEGER PRIMARY KEY,
-            first_name TEXT NOT NULL,
-            last_name TEXT NOT NULL
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
         )
     ''')
 
